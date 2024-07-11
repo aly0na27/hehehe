@@ -108,16 +108,15 @@ const TABS = {
         }]
     }
 };
-for (let i = 0; i < 6; ++i) {
-    TABS.all.items = [...TABS.all.items,
-        ...TABS.all.items];
+for (let i = 0; i < 2; ++i) {
+    TABS.all.items = [...TABS.all.items, ...TABS.all.items]; // TODO: подумать
 }
 const TABS_KEYS = Object.keys(TABS);
 
 
 function Main() {
     const ref = React.useRef();
-    const [activeTab, setActiveTab] = React.useState('');
+    const [activeTab, setActiveTab] = React.useState('all');
     const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
     React.useEffect(() => {
@@ -127,7 +126,7 @@ function Main() {
     }, []);
 
     React.useEffect(() => {
-        const a = document.getElementById('panel_'+activeTab)
+        const a = document.getElementById('panel_' + activeTab)
         if (a) {
             const lastChild = a.firstChild.lastChild
 
@@ -277,21 +276,22 @@ function Main() {
                 </div>
 
                 <div className="section__panel-wrapper" ref={ref}>
-                    {TABS_KEYS.map(key =>
-                        <div key={key} role="tabpanel"
-                             className={'section__panel' + (key === activeTab ? '' : ' section__panel_hidden')}
-                             aria-hidden={key === activeTab ? 'false' : 'true'} id={`panel_${key}`}
-                             aria-labelledby={`tab_${key}`}>
-                            <ul className="section__panel-list">
-                                {TABS[key].items.map((item, index) =>
-                                    <Event
-                                        key={index}
-                                        {...item}
-                                    />
-                                )}
-                            </ul>
-                        </div>
-                    )}
+
+                    <div role="tabpanel"
+                         className={'section__panel'}
+                         id={`panel_${activeTab}`}
+                         aria-labelledby={`tab_${activeTab}`}
+                         aria-hidden={'false'}>
+                        <ul className="section__panel-list">
+                            {TABS[activeTab].items.map((item, index) =>
+                                <Event
+                                    key={index}
+                                    {...item}
+                                />
+                            )}
+                        </ul>
+                    </div>
+
                     {hasRightScroll &&
                         <div className="section__arrow" onClick={onArrowCLick}></div>
                     }
