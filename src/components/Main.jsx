@@ -116,7 +116,7 @@ const TABS_KEYS = Object.keys(TABS);
 
 function Main() {
     const ref = React.useRef();
-    const [activeTab, setActiveTab] = React.useState('all');
+    const [activeTab, setActiveTab] = React.useState('');
     const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
     React.useEffect(() => {
@@ -276,21 +276,22 @@ function Main() {
                 </div>
 
                 <div className="section__panel-wrapper" ref={ref}>
-
-                    <div role="tabpanel"
-                         className={'section__panel'}
-                         id={`panel_${activeTab}`}
-                         aria-labelledby={`tab_${activeTab}`}
-                         aria-hidden={'false'}>
-                        <ul className="section__panel-list">
-                            {TABS[activeTab].items.map((item, index) =>
-                                <Event
-                                    key={index}
-                                    {...item}
-                                />
-                            )}
-                        </ul>
-                    </div>
+                    {activeTab &&
+                        <div role="tabpanel"
+                             className={'section__panel'}
+                             id={`panel_${activeTab}`}
+                             aria-labelledby={`tab_${activeTab}`}
+                             aria-hidden={'false'}>
+                            <ul className="section__panel-list">
+                                {TABS[activeTab].items.map((item, index) =>
+                                    <Event
+                                        key={index}
+                                        {...item}
+                                    />
+                                )}
+                            </ul>
+                        </div>
+                    }
 
                     {hasRightScroll &&
                         <div className="section__arrow" onClick={onArrowCLick}></div>
