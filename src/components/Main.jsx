@@ -108,7 +108,7 @@ const TABS = {
         }]
     }
 };
-for (let i = 0; i < 2; ++i) {
+for (let i = 0; i < 6; ++i) {
     TABS.all.items = [...TABS.all.items, ...TABS.all.items]; // TODO: подумать
 }
 const TABS_KEYS = Object.keys(TABS);
