@@ -159,7 +159,8 @@ function Main() {
     };
 
     const handleScroll = (e) => {
-        if (e.target.scrollWidth - e.target.scrollLeft === e.target.clientWidth) {
+        if (Math.abs((e.target.scrollWidth - e.target.scrollLeft)- e.target.clientWidth) <= 100) {
+
             const moreItems = TABS[activeTab].items.slice(visibleItems.length, visibleItems.length + itemsPerLoad);
             setVisibleItems((prevItems) => [...prevItems, ...moreItems]);
         }
