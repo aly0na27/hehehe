@@ -118,10 +118,14 @@ function Main() {
     const ref = React.useRef();
     const [activeTab, setActiveTab] = React.useState('');
     const [hasRightScroll, setHasRightScroll] = React.useState(false);
+    const [visibleItems, setVisibleItems] = React.useState([]);
+    const itemsPerLoad = 20;
 
     React.useEffect(() => {
         if (!activeTab) {
-            setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
+            const currActiveTab = new URLSearchParams(location.search).get('tab') || 'all'
+            setActiveTab(currActiveTab);
+            setVisibleItems(TABS[currActiveTab].items.slice(0, itemsPerLoad));
         }
     }, []);
 
@@ -140,6 +144,8 @@ function Main() {
 
     const onSelectInput = event => {
         setActiveTab(event.target.value);
+        setVisibleItems(TABS[event.target.value].items.slice(0, itemsPerLoad));
+
     };
 
     const onArrowCLick = () => {
@@ -149,6 +155,13 @@ function Main() {
                 left: scroller.scrollLeft + 400,
                 behavior: 'smooth'
             });
+        }
+    };
+
+    const handleScroll = (e) => {
+        if (e.target.scrollWidth - e.target.scrollLeft === e.target.clientWidth) {
+            const moreItems = TABS[activeTab].items.slice(visibleItems.length, visibleItems.length + itemsPerLoad);
+            setVisibleItems((prevItems) => [...prevItems, ...moreItems]);
         }
     };
 
@@ -267,7 +280,11 @@ function Main() {
                                 className={'section__tab' + (key === activeTab ? ' section__tab_active' : '')}
                                 id={`tab_${key}`}
                                 aria-controls={`panel_${key}`}
-                                onClick={() => setActiveTab(key)}
+                                onClick={() => {
+                                    setActiveTab(key)
+                                    setVisibleItems(TABS[key].items.slice(0, itemsPerLoad));
+
+                                }}
                             >
                                 {TABS[key].title}
                             </li>
@@ -281,14 +298,17 @@ function Main() {
                              className={'section__panel'}
                              id={`panel_${activeTab}`}
                              aria-labelledby={`tab_${activeTab}`}
-                             aria-hidden={'false'}>
+                             aria-hidden={'false'}
+                        onScroll={handleScroll}>
                             <ul className="section__panel-list">
-                                {TABS[activeTab].items.map((item, index) =>
+
+                                {visibleItems.map((item, index) =>
                                     <Event
                                         key={index}
                                         {...item}
                                     />
                                 )}
+
                             </ul>
                         </div>
                     }
