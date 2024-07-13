@@ -10,7 +10,7 @@ export default defineConfig({
   css: {
     minify: true, // Включить минификацию CSS
   },
-  html: {
+  js: {
     minify: true
   },
   build: {
