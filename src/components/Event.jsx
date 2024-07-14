@@ -1,7 +1,6 @@
 import React from "react";
 
 const Event = React.memo(function Event(props) {
-    
     return (
         <li className={'event' + (props.slim ? ' event_slim' : '')}>
             <button className="event__button">

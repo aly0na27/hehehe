@@ -4,19 +4,14 @@ import {TABS, TABS_KEYS} from "../consts.js";
 
 function Main() {
     const ref = React.useRef();
+    const ref2 = React.useRef({})
     const [activeTab, setActiveTab] = React.useState( new URLSearchParams(location.search).get('tab') || 'all');
     const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
     React.useEffect(() => {
-        const a = document.getElementById('panel_' + activeTab)
-        if (a) {
-            const lastChild = a.firstChild.lastChild
-
-            if (lastChild.getBoundingClientRect().right <= ref.current.getBoundingClientRect().right) {
-                setHasRightScroll(false)
-            } else {
-                setHasRightScroll(true)
-            }
+        if (ref2.current) {
+            const newHasRightScroll = ref2.current.scrollWidth > ref2.current.offsetWidth;
+            setHasRightScroll(newHasRightScroll);
         }
     }, [activeTab])
 
@@ -161,7 +156,8 @@ function Main() {
 
                 <div className="section__panel-wrapper" ref={ref}>
                     {activeTab &&
-                        <div role="tabpanel"
+                        <div ref={ref2}
+                             role="tabpanel"
                              className={'section__panel'}
                              id={`panel_${activeTab}`}
                              aria-labelledby={`tab_${activeTab}`}
