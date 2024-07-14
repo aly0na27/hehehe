@@ -3,7 +3,7 @@ name: Deploy Compressed Files to GitHub Pages
 on:
   push:
     branches:
-      - main  # или ваша основная ветка
+      - gh-pages  # или ваша основная ветка
 
 jobs:
   build-and-deploy:
