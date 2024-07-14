@@ -21,18 +21,7 @@ export default defineConfig({
     assetsInlineLimit: 0,
     minify: 'terser',
     sourcemap: false,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-          if (id.includes('src/components')) {
-            return 'components';
-          }
-        },
-      },
-    },
+
   },
 
 })
