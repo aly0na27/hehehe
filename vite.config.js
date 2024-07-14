@@ -18,10 +18,8 @@ export default defineConfig({
     include: ['react', 'react-dom'],
   },
   build: {
-    assetsInlineLimit: 0,
+    // assetsInlineLimit: 0,
     minify: 'terser',
     sourcemap: false,
-
   },
-
 })
