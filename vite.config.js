@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import {createHtmlPlugin} from "vite-plugin-html";
+import compression from 'vite-plugin-compression';
 
 export default defineConfig({
   plugins: [react(),
@@ -12,7 +13,12 @@ export default defineConfig({
         minifyCSS: true, // Минифицирует встроенный CSS
         minifyJS: true, // Минифицирует встроенный JavaScript
       }
-    })],
+    }),
+    compression({
+      algorithm: "gzip", // Can be 'gzip' or 'brotliCompress'
+      ext: ".gz", // The extension for compressed files
+      deleteOriginFile: false})
+  ],
   base: '',
   optimizeDeps: {
     include: ['react', 'react-dom'],
